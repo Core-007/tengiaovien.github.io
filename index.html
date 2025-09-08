@@ -107,6 +107,16 @@
             background: #f1f5f9;
         }
 
+        /* Mobile menu */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #4f46e5;
+            cursor: pointer;
+        }
+
         /* Main Content */
         main {
             min-height: calc(100vh - 80px);
@@ -808,6 +818,22 @@
 
             .nav-links {
                 display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                padding: 1rem;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
             }
 
             .hero h1 {
@@ -855,6 +881,9 @@
                 <input type="text" placeholder="Tìm kiếm tài liệu, giảng viên...">
                 <i class="fas fa-search"></i>
             </div>
+            <button class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
             <ul class="nav-links">
                 <li><a href="#" class="nav-link active" data-page="home">Trang chủ</a></li>
                 <li><a href="#" class="nav-link" data-page="teachers">Giảng viên</a></li>
@@ -948,6 +977,14 @@
                         <div class="stat-item">
                             <div class="stat-number">4.8/5</div>
                             <div class="stat-label">Đánh giá trung bình</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">50+</div>
+                            <div class="stat-label">Giảng viên</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">15+</div>
+                            <div class="stat-label">Năm kinh nghiệm TB</div>
                         </div>
                     </div>
                 </div>
@@ -1527,6 +1564,8 @@
         const navLinks = document.querySelectorAll('.nav-link');
         const pages = document.querySelectorAll('.page');
         const heroButtons = document.querySelectorAll('[data-page]');
+        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+        const navLinksContainer = document.querySelector('.nav-links');
 
         function switchPage(targetPage) {
             // Remove active class from all links and pages
@@ -1540,6 +1579,11 @@
             const targetNavLink = document.querySelector(`[data-page="${targetPage}"]`);
             if (targetNavLink && targetNavLink.classList.contains('nav-link')) {
                 targetNavLink.classList.add('active');
+            }
+            
+            // Close mobile menu after navigation
+            if (window.innerWidth <= 768) {
+                navLinksContainer.classList.remove('active');
             }
         }
 
@@ -1562,6 +1606,13 @@
                 }
             });
         });
+
+        // Mobile menu toggle
+        if (mobileMenuToggle) {
+            mobileMenuToggle.addEventListener('click', () => {
+                navLinksContainer.classList.toggle('active');
+            });
+        }
 
         // Character counter for contact form
         const messageTextarea = document.getElementById('message');
@@ -1638,46 +1689,6 @@
             });
         });
 
-        // Responsive menu toggle (for mobile - basic implementation)
-        function createMobileMenu() {
-            if (window.innerWidth <= 768) {
-                const nav = document.querySelector('nav');
-                const navLinks = document.querySelector('.nav-links');
-                
-                if (!document.querySelector('.mobile-menu-toggle')) {
-                    const mobileToggle = document.createElement('button');
-                    mobileToggle.classList.add('mobile-menu-toggle');
-                    mobileToggle.innerHTML = '<i class="fas fa-bars"></i>';
-                    mobileToggle.style.cssText = `
-                        display: block;
-                        background: none;
-                        border: none;
-                        font-size: 1.5rem;
-                        color: #4f46e5;
-                        cursor: pointer;
-                    `;
-                    
-                    nav.appendChild(mobileToggle);
-                    
-                    mobileToggle.addEventListener('click', () => {
-                        navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
-                        navLinks.style.flexDirection = 'column';
-                        navLinks.style.position = 'absolute';
-                        navLinks.style.top = '100%';
-                        navLinks.style.left = '0';
-                        navLinks.style.right = '0';
-                        navLinks.style.background = 'white';
-                        navLinks.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
-                        navLinks.style.padding = '1rem';
-                    });
-                }
-            }
-        }
-
-        // Initialize mobile menu on load and resize
-        createMobileMenu();
-        window.addEventListener('resize', createMobileMenu);
-
         // Smooth scroll for better UX
         document.documentElement.style.scrollBehavior = 'smooth';
 
@@ -1735,12 +1746,4 @@
         });
     </script>
 </body>
-</html>="stat-number">50+</div>
-                            <div class="stat-label">Giảng viên</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number">15+</div>
-                            <div class="stat-label">Năm kinh nghiệm TB</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class
+</html>
