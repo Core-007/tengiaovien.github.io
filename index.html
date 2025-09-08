@@ -3,312 +3,1744 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StudyHub - Hệ thống học tập trực tuyến</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <title>EduCenter - Trung Tâm Giáo Dục Trực Tuyến</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        :root {
-            --primary-color: #4F46E5;
-            --secondary-color: #10B981;
-            --dark-color: #1F2937;
-            --light-color: #F3F4F6;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        
+
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8fafc;
         }
-        
-        .sidebar {
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #4f46e5;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: #4f46e5;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .search-bar {
+            flex: 1;
+            max-width: 500px;
+            margin: 0 2rem;
+            position: relative;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 12px 45px 12px 16px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 14px;
+            background: #f8fafc;
+        }
+
+        .search-bar i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #64748b;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 0;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #64748b;
+            font-weight: 500;
+            padding: 12px 24px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            font-size: 14px;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: #4f46e5;
+            background: #f1f5f9;
+        }
+
+        /* Main Content */
+        main {
+            min-height: calc(100vh - 80px);
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Hero Sections */
+        .hero {
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+            padding: 120px 0;
+            color: white;
+            text-align: center;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary, .btn-secondary {
+            padding: 12px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: #4f46e5;
+            color: white;
+            border: 2px solid #4f46e5;
+        }
+
+        .btn-primary:hover {
+            background: #4338ca;
+            border-color: #4338ca;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #4f46e5;
+        }
+
+        /* Home Page Specific */
+        .home-hero {
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%23667eea;stop-opacity:1" /><stop offset="100%" style="stop-color:%23764ba2;stop-opacity:1" /></linearGradient></defs><rect width="100%" height="100%" fill="url(%23bg)"/><rect width="100%" height="100%" fill="url(data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.1"%3E%3Ccircle cx="30" cy="30" r="4"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E)"/></svg>');
+        }
+
+        .features-section {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 1rem;
+        }
+
+        .section-title p {
+            font-size: 1.125rem;
+            color: #64748b;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+            text-align: center;
             transition: all 0.3s ease;
         }
-        
-        .video-card:hover {
+
+        .feature-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: white;
+            font-size: 2rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card p {
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        /* Teachers Page */
+        .teachers-hero {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+        }
+
+        .stats-section {
+            padding: 60px 0;
+            background: white;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 1.5rem;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #4f46e5;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .teachers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            padding: 60px 0;
+        }
+
+        .teacher-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .teacher-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .teacher-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: white;
+            font-size: 2.5rem;
+        }
+
+        .teacher-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+
+        .teacher-title {
+            color: #4f46e5;
+            font-weight: 500;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .teacher-info {
+            space-y: 0.75rem;
+        }
+
+        .teacher-info-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 0.75rem;
+            font-size: 0.875rem;
+        }
+
+        .teacher-info-icon {
+            width: 20px;
+            color: #64748b;
+        }
+
+        /* Schedule Page */
+        .schedule-hero {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+        }
+
+        .schedule-filters {
+            padding: 2rem 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .filters-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .filter-group label {
+            display: block;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+
+        .filter-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            background: white;
+            font-size: 14px;
+        }
+
+        .schedule-table {
+            background: white;
+            margin: 2rem 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .schedule-table th {
+            background: #4f46e5;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .schedule-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+            vertical-align: top;
+        }
+
+        .time-slot {
+            font-weight: 600;
+            color: #374151;
+            background: #f8fafc;
+            text-align: center;
+        }
+
+        .subject-card {
+            background: #f1f5f9;
+            padding: 0.75rem;
+            border-radius: 8px;
+            border-left: 4px solid #4f46e5;
+            margin-bottom: 0.5rem;
+        }
+
+        .subject-name {
+            font-weight: 600;
+            color: #1e293b;
+            font-size: 0.875rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .teacher-name-small {
+            color: #64748b;
+            font-size: 0.75rem;
+        }
+
+        .room-code {
+            color: #4f46e5;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        /* Documents Page */
+        .documents-hero {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+
+        .document-search {
+            padding: 2rem 0;
+            background: white;
+        }
+
+        .search-filters {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .document-stats {
+            padding: 2rem 0;
+            background: #f8fafc;
+        }
+
+        .document-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .document-stat {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .document-stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+        }
+
+        .blue { background: #dbeafe; color: #2563eb; }
+        .green { background: #dcfce7; color: #16a34a; }
+        .orange { background: #fed7aa; color: #ea580c; }
+        .purple { background: #e9d5ff; color: #9333ea; }
+
+        .document-stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+
+        .document-stat-label {
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+
+        .documents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            padding: 2rem 0;
+        }
+
+        .document-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .document-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .document-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .document-type-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .pdf { background: #dc2626; }
+        .video { background: #ea580c; }
+        .word { background: #2563eb; }
+
+        .document-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+
+        .document-description {
+            color: #64748b;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+        }
+
+        .document-meta {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+
+        .document-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .document-download {
+            width: 100%;
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .document-download:hover {
+            background: #059669;
+        }
+
+        /* Contact Page */
+        .contact-hero {
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
+        }
+
+        .contact-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            padding: 4rem 0;
+            align-items: start;
+        }
+
+        .contact-form {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-form h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            transition: border-color 0.2s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            height: 120px;
+        }
+
+        .char-count {
+            text-align: right;
+            font-size: 0.75rem;
+            color: #64748b;
+            margin-top: 0.25rem;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: #4f46e5;
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .submit-btn:hover {
+            background: #4338ca;
+        }
+
+        .contact-info {
+            padding: 2rem 0;
+        }
+
+        .contact-info h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 2rem;
+        }
+
+        .contact-info-grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .contact-info-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-info-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            background: #4f46e5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.25rem;
+        }
+
+        .contact-info-content h4 {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-info-content p {
+            color: #64748b;
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+
+        .contact-departments {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .contact-departments h4 {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 1rem;
+        }
+
+        .department-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .department-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 16px;
+            }
+
+            .search-bar {
+                display: none;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .contact-section {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .search-filters,
+            .filters-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .schedule-table {
+                overflow-x: auto;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
     </style>
 </head>
-<body class="bg-gray-50">
-    <!-- Header Navigation -->
-    <nav class="bg-white shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex items-center">
-                    <div class="flex-shrink-0 flex items-center">
-                        <img src="https://placehold.co/40x40" alt="StudyHub logo với hình ảnh quyển sách và bóng đèn" class="h-8 w-auto">
-                        <span class="ml-2 text-xl font-bold text-indigo-600">StudyHub</span>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                EduCenter
+            </div>
+            <div class="search-bar">
+                <input type="text" placeholder="Tìm kiếm tài liệu, giảng viên...">
+                <i class="fas fa-search"></i>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#" class="nav-link active" data-page="home">Trang chủ</a></li>
+                <li><a href="#" class="nav-link" data-page="teachers">Giảng viên</a></li>
+                <li><a href="#" class="nav-link" data-page="schedule">Thời khóa biểu</a></li>
+                <li><a href="#" class="nav-link" data-page="documents">Tài liệu</a></li>
+                <li><a href="#" class="nav-link" data-page="contact">Liên hệ</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Trang Chủ -->
+        <div class="page active" id="home">
+            <div class="hero home-hero">
+                <div class="container">
+                    <div class="hero-content">
+                        <h1>Trung Tâm Giáo Dục Trực Tuyến</h1>
+                        <p>Khám phá kho tài liệu phong phú, video bài giảng chất lượng và lịch học khoa học</p>
+                        <div class="hero-buttons">
+                            <a href="#" class="btn-primary" data-page="documents">
+                                <i class="fas fa-download"></i>
+                                Xem tài liệu
+                            </a>
+                            <a href="#" class="btn-secondary" data-page="schedule">
+                                <i class="fas fa-calendar"></i>
+                                Thời khóa biểu
+                            </a>
+                        </div>
                     </div>
                 </div>
-                <div class="hidden sm:ml-6 sm:flex sm:items-center space-x-8">
-                    <a href="#" class="text-gray-700 hover:text-indigo-600 px-3 py-2 text-sm font-medium">Trang chủ</a>
-                    <a href="#" class="text-gray-700 hover:text-indigo-600 px-3 py-2 text-sm font-medium">Khóa học</a>
-                    <a href="#" class="text-gray-700 hover:text-indigo-600 px-3 py-2 text-sm font-medium">Diễn đàn</a>
-                    <a href="#" class="text-gray-700 hover:text-indigo-600 px-3 py-2 text-sm font-medium">Tài liệu</a>
-                    <a href="#" class="text-gray-700 hover:text-indigo-600 px-3 py-2 text-sm font-medium">Kiểm tra</a>
-                </div>
-                <div class="hidden sm:ml-6 sm:flex sm:items-center">
-                    <button class="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                        Đăng nhập
-                    </button>
+            </div>
+
+            <div class="features-section">
+                <div class="container">
+                    <div class="section-title">
+                        <h2>Tại sao chọn EduCenter?</h2>
+                        <p>Chúng tôi cung cấp nền tảng học tập toàn diện với các tính năng hiện đại</p>
+                    </div>
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon blue">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <h3>Tài liệu đa dạng</h3>
+                            <p>Kho tài liệu phong phú với các định dạng PDF, PowerPoint, Word và nhiều loại khác</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon green">
+                                <i class="fab fa-youtube"></i>
+                            </div>
+                            <h3>Video YouTube</h3>
+                            <p>Các video bài giảng chất lượng cao được tuyển chọn từ YouTube</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon orange">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <h3>Thời khóa biểu</h3>
+                            <p>Lịch học được sắp xếp khoa học, dễ dàng theo dõi và quản lý</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon purple">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <h3>Giảng viên uy tín</h3>
+                            <p>Đội ngũ giảng viên giàu kinh nghiệm và chuyên môn cao</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </nav>
 
-    <!-- Main Content -->
-    <div class="flex">
-        <!-- Sidebar -->
-        <div class="sidebar fixed hidden md:block md:w-64 bg-white h-screen shadow-sm overflow-y-auto">
-            <div class="p-4">
-                <ul class="space-y-2">
-                    <li>
-                        <a href="#" class="flex items-center p-2 text-gray-700 rounded-lg hover:bg-indigo-50 group">
-                            <i class="fas fa-home mr-3"></i>
-                            <span>Trang chủ</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="flex items-center p-2 text-gray-700 rounded-lg hover:bg-indigo-50 group">
-                            <i class="fas fa-book-open mr-3"></i>
-                            <span>Khóa học của tôi</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="flex items-center p-2 text-gray-700 rounded-lg hover:bg-indigo-50 group">
-                            <i class="fas fa-video mr-3"></i>
-                            <span>Học qua video</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="flex items-center p-2 text-gray-700 rounded-lg hover:bg-indigo-50 group">
-                            <i class="fas fa-file-pdf mr-3"></i>
-                            <span>Tài liệu PDF</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="flex items-center p-2 text-gray-700 rounded-lg hover:bg-indigo-50 group">
-                            <i class="fas fa-question-circle mr-3"></i>
-                            <span>Kiểm tra</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="flex items-center p-2 text-gray-700 rounded-lg hover:bg-indigo-50 group">
-                            <i class="fas fa-comments mr-3"></i>
-                            <span>Diễn đàn</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="flex items-center p-2 text-gray-700 rounded-lg hover:bg-indigo-50 group">
-                            <i class="fas fa-store mr-3"></i>
-                            <span>Mua/bán tài liệu</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="flex items-center p-2 text-gray-700 rounded-lg hover:bg-indigo-50 group">
-                            <i class="fas fa-robot mr-3"></i>
-                            <span>AI Hỗ trợ</span>
-                        </a>
-                    </li>
-                </ul>
+        <!-- Trang Giảng Viên -->
+        <div class="page" id="teachers">
+            <div class="hero teachers-hero">
+                <div class="container">
+                    <div class="hero-content">
+                        <h1>Đội Ngũ Giảng Viên</h1>
+                        <p>Gặp gỡ những chuyên gia hàng đầu với kinh nghiệm giảng dạy phong phú và chuyên môn cao</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-section">
+                <div class="container">
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-number">10,000+</div>
+                            <div class="stat-label">Học viên đã đào tạo</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">4.8/5</div>
+                            <div class="stat-label">Đánh giá trung bình</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="teachers-grid">
+                    <div class="teacher-card">
+                        <div class="teacher-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="teacher-name">PGS.TS Nguyễn Văn An</div>
+                        <div class="teacher-title">Trưởng khoa Toán học</div>
+                        <div class="teacher-info">
+                            <div class="teacher-info-item">
+                                <i class="fas fa-graduation-cap teacher-info-icon"></i>
+                                <span><strong>Chuyên môn:</strong> Toán cao cấp, Giải tích</span>
+                            </div>
+                            <div class="teacher-info-item">
+                                <i class="fas fa-clock teacher-info-icon"></i>
+                                <span><strong>Kinh nghiệm:</strong> 15 năm</span>
+                            </div>
+                            <div class="teacher-info-item">
+                                <i class="fas fa-university teacher-info-icon"></i>
+                                <span><strong>Học vấn:</strong> Tiến sĩ Toán học - Đại học Quốc gia</span>
+                            </div>
+                            <div class="teacher-info-item">
+                                <i class="fas fa-book teacher-info-icon"></i>
+                                <span><strong>Các khóa học:</strong> A101</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="teacher-card">
+                        <div class="teacher-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="teacher-name">TS. Trần Thị Bích</div>
+                        <div class="teacher-title">Phó trưởng khoa Vật lý</div>
+                        <div class="teacher-info">
+                            <div class="teacher-info-item">
+                                <i class="fas fa-graduation-cap teacher-info-icon"></i>
+                                <span><strong>Chuyên môn:</strong> Vật lý đại cương, Cơ học lượng tử</span>
+                            </div>
+                            <div class="teacher-info-item">
+                                <i class="fas fa-clock teacher-info-icon"></i>
+                                <span><strong>Kinh nghiệm:</strong> 12 năm</span>
+                            </div>
+                            <div class="teacher-info-item">
+                                <i class="fas fa-university teacher-info-icon"></i>
+                                <span><strong>Học vấn:</strong> Tiến sĩ Vật lý - Đại học Bách khoa</span>
+                            </div>
+                            <div class="teacher-info-item">
+                                <i class="fas fa-book teacher-info-icon"></i>
+                                <span><strong>Các khóa học:</strong> B205</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="teacher-card">
+                        <div class="teacher-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="teacher-name">ThS. Lê Hoàng Nam</div>
+                        <div class="teacher-title">Giảng viên khoa Hóa học</div>
+                        <div class="teacher-info">
+                            <div class="teacher-info-item">
+                                <i class="fas fa-graduation-cap teacher-info-icon"></i>
+                                <span><strong>Chuyên môn:</strong> Hóa học hữu cơ, Hóa sinh</span>
+                            </div>
+                            <div class="teacher-info-item">
+                                <i class="fas fa-clock teacher-info-icon"></i>
+                                <span><strong>Kinh nghiệm:</strong> 8 năm</span>
+                            </div>
+                            <div class="teacher-info-item">
+                                <i class="fas fa-university teacher-info-icon"></i>
+                                <span><strong>Học vấn:</strong> Thạc sĩ Hóa học - Đại học Khoa học Tự nhiên</span>
+                            </div>
+                            <div class="teacher-info-item">
+                                <i class="fas fa-book teacher-info-icon"></i>
+                                <span><strong>Các khóa học:</strong> C301, E205</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Main Content Area -->
-        <div class="flex-1 md:ml-64">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-                <!-- Hero Section -->
-                <div class="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-lg p-8 text-white mb-8">
-                    <h1 class="text-3xl font-bold mb-4">Chào mừng bạn đến với StudyHub</h1>
-                    <p class="mb-6">Nền tảng học tập toàn diện với công nghệ AI tiên tiến</p>
-                    <div class="flex space-x-4">
-                        <input type="text" placeholder="Tìm kiếm khóa học, tài liệu..." class="flex-1 px-4 py-2 rounded-md text-gray-800 focus:outline-none focus:ring-2 focus:ring-white">
-                        <button class="bg-white text-indigo-600 px-6 py-2 rounded-md font-medium hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-white">
-                            Tìm kiếm
-                        </button>
+        <!-- Trang Thời Khóa Biểu -->
+        <div class="page" id="schedule">
+            <div class="hero schedule-hero">
+                <div class="container">
+                    <div class="hero-content">
+                        <h1>Thời Khóa Biểu</h1>
+                        <p>Lịch dạy học chi tiết theo từng tuần và lớp học</p>
                     </div>
                 </div>
+            </div>
 
-                <!-- AI Learning Path Recommendation -->
-                <div class="bg-white rounded-lg shadow-sm p-6 mb-8">
-                    <div class="flex justify-between items-center mb-4">
-                        <h2 class="text-xl font-semibold text-gray-800">Lộ trình học tập AI đề xuất</h2>
-                        <button class="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            Tạo lộ trình mới
-                        </button>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div class="border rounded-lg p-4 hover:border-indigo-400 transition-colors">
-                            <div class="flex items-center mb-2">
-                                <div class="bg-green-100 rounded-full p-2 mr-3">
-                                    <i class="fas fa-code text-green-600"></i>
-                                </div>
-                                <div>
-                                    <h3 class="font-medium">Lập trình Java</h3>
-                                    <p class="text-xs text-gray-500">72 video - 36 quiz</p>
-                                </div>
-                            </div>
-                            <div class="h-1 w-full bg-gray-200 rounded-full mb-2">
-                                <div class="h-1 bg-green-500 rounded-full" style="width: 65%"></div>
-                            </div>
-                            <p class="text-xs text-gray-500">Đã hoàn thành 65%</p>
+            <div class="schedule-filters">
+                <div class="container">
+                    <div class="filters-grid">
+                        <div class="filter-group">
+                            <label for="weekSelect">Chọn tuần</label>
+                            <select id="weekSelect">
+                                <option>Tuần hiện tại</option>
+                                <option>Tuần 1</option>
+                                <option>Tuần 2</option>
+                                <option>Tuần 3</option>
+                                <option>Tuần 4</option>
+                            </select>
                         </div>
-                        <div class="border rounded-lg p-4 hover:border-indigo-400 transition-colors">
-                            <div class="flex items-center mb-2">
-                                <div class="bg-blue-100 rounded-full p-2 mr-3">
-                                    <i class="fas fa-database text-blue-600"></i>
-                                </div>
-                                <div>
-                                    <h3 class="font-medium">Cơ sở dữ liệu SQL</h3>
-                                    <p class="text-xs text-gray-500">48 video - 24 quiz</p>
-                                </div>
-                            </div>
-                            <div class="h-1 w-full bg-gray-200 rounded-full mb-2">
-                                <div class="h-1 bg-blue-500 rounded-full" style="width: 30%"></div>
-                            </div>
-                            <p class="text-xs text-gray-500">Đã hoàn thành 30%</p>
-                        </div>
-                        <div class="border rounded-lg p-4 hover:border-indigo-400 transition-colors">
-                            <div class="flex items-center mb-2">
-                                <div class="bg-purple-100 rounded-full p-2 mr-3">
-                                    <i class="fas fa-globe text-purple-600"></i>
-                                </div>
-                                <div>
-                                    <h3 class="font-medium">Web Development</h3>
-                                    <p class="text-xs text-gray-500">60 video - 30 quiz</p>
-                                </div>
-                            </div>
-                            <div class="h-1 w-full bg-gray-200 rounded-full mb-2">
-                                <div class="h-1 bg-purple-500 rounded-full" style="width: 10%"></div>
-                            </div>
-                            <p class="text-xs text-gray-500">Đã hoàn thành 10%</p>
+                        <div class="filter-group">
+                            <label for="classSelect">Chọn lớp</label>
+                            <select id="classSelect">
+                                <option>Tất cả lớp</option>
+                                <option>Lớp A</option>
+                                <option>Lớp B</option>
+                                <option>Lớp C</option>
+                            </select>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Video Learning Section -->
-                <div class="bg-white rounded-lg shadow-sm p-6 mb-8">
-                    <div class="flex justify-between items-center mb-4">
-                        <h2 class="text-xl font-semibold text-gray-800">Học qua video</h2>
-                        <a href="#" class="text-indigo-600 text-sm font-medium hover:text-indigo-800">Xem tất cả</a>
+            <div class="container">
+                <div class="schedule-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tiết học</th>
+                                <th>Thứ 2</th>
+                                <th>Thứ 3</th>
+                                <th>Thứ 4</th>
+                                <th>Thứ 5</th>
+                                <th>Thứ 6</th>
+                                <th>Thứ 7</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="time-slot">
+                                    <strong>Tiết 1</strong><br>
+                                    <small>07:00 - 08:30</small>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">Toán học</div>
+                                        <div class="teacher-name-small">TS. Nguyễn Văn Nam</div>
+                                        <div class="room-code">A101</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">Vật lý</div>
+                                        <div class="teacher-name-small">PGS. Lê Thị Hoa</div>
+                                        <div class="room-code">B205</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">Hóa học</div>
+                                        <div class="teacher-name-small">ThS. Trần Minh Tuấn</div>
+                                        <div class="room-code">C301</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">Sinh học</div>
+                                        <div class="teacher-name-small">TS. Phạm Thị Lan</div>
+                                        <div class="room-code">D102</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">Tin học</div>
+                                        <div class="teacher-name-small">ThS. Hoàng Văn Đức</div>
+                                        <div class="room-code">E205</div>
+                                    </div>
+                                </td>
+                                <td style="background: #f8fafc; text-align: center; color: #64748b;">Nghỉ</td>
+                            </tr>
+                            <tr>
+                                <td class="time-slot">
+                                    <strong>Tiết 2</strong><br>
+                                    <small>08:45 - 10:15</small>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">Ngữ văn</div>
+                                        <div class="teacher-name-small">ThS. Vũ Thị Mai</div>
+                                        <div class="room-code">A102</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">Toán học</div>
+                                        <div class="teacher-name-small">TS. Nguyễn Văn Nam</div>
+                                        <div class="room-code">A101</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">Vật lý</div>
+                                        <div class="teacher-name-small">PGS. Lê Thị Hoa</div>
+                                        <div class="room-code">B205</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">Hóa học</div>
+                                        <div class="teacher-name-small">ThS. Trần Minh Tuấn</div>
+                                        <div class="room-code">C301</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">Sinh học</div>
+                                        <div class="teacher-name-small">TS. Phạm Thị Lan</div>
+                                        <div class="room-code">D102</div>
+                                    </div>
+                                </td>
+                                <td style="background: #f8fafc; text-align: center; color: #64748b;">Nghỉ</td>
+                            </tr>
+                            <tr>
+                                <td class="time-slot">
+                                    <strong>Tiết 3</strong><br>
+                                    <small>10:30 - 12:00</small>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">Vật lý</div>
+                                        <div class="teacher-name-small">PGS. Lê Thị Hoa</div>
+                                        <div class="room-code">B205</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">Hóa học</div>
+                                        <div class="teacher-name-small">ThS. Trần Minh Tuấn</div>
+                                        <div class="room-code">C301</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">Toán học</div>
+                                        <div class="teacher-name-small">TS. Nguyễn Văn Nam</div>
+                                        <div class="room-code">A101</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">Tin học</div>
+                                        <div class="teacher-name-small">ThS. Hoàng Văn Đức</div>
+                                        <div class="room-code">E205</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">Ngữ văn</div>
+                                        <div class="teacher-name-small">ThS. Vũ Thị Mai</div>
+                                        <div class="room-code">A102</div>
+                                    </div>
+                                </td>
+                                <td style="background: #f8fafc; text-align: center; color: #64748b;">Nghỉ</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trang Tài Liệu -->
+        <div class="page" id="documents">
+            <div class="hero documents-hero">
+                <div class="container">
+                    <div class="hero-content">
+                        <h1>Tài Liệu Học Tập</h1>
+                        <p>Kho tài liệu phong phú với đầy đủ các môn học</p>
                     </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                        <!-- Video Card 1 -->
-                        <div class="video-card bg-white rounded-lg overflow-hidden shadow-md transition-transform">
-                            <div class="relative pb-[56.25%]">
-                                <img src="https://placehold.co/400x225" alt="Hướng dẫn lập trình Java cơ bản với giảng viên đang chỉ vào màn hình code" class="absolute h-full w-full object-cover">
-                                <div class="absolute inset-0 flex items-center justify-center">
-                                    <div class="bg-black bg-opacity-40 rounded-full p-3">
-                                        <i class="fas fa-play text-white"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="p-4">
-                                <h3 class="font-medium text-gray-800 mb-2">Java cơ bản - Bài 1: Giới thiệu</h3>
-                                <div class="flex items-center text-sm text-gray-500">
-                                    <i class="fas fa-eye mr-1"></i>
-                                    <span class="mr-4">1.2k lượt xem</span>
-                                    <i class="fas fa-clock mr-1"></i>
-                                    <span>15 phút</span>
-                                </div>
-                            </div>
+                </div>
+            </div>
+
+            <div class="document-search">
+                <div class="container">
+                    <div class="search-filters">
+                        <div class="form-group">
+                            <input type="text" placeholder="Tìm kiếm tài liệu, giảng viên...">
                         </div>
-                        
-                        <!-- Video Card 2 -->
-                        <div class="video-card bg-white rounded-lg overflow-hidden shadow-md transition-transform">
-                            <div class="relative pb-[56.25%]">
-                                <img src="https://placehold.co/400x225" alt="Hướng dẫn SQL Server với màn hình hiển thị các câu lệnh truy vấn" class="absolute h-full w-full object-cover">
-                                <div class="absolute inset-0 flex items-center justify-center">
-                                    <div class="bg-black bg-opacity-40 rounded-full p-3">
-                                        <i class="fas fa-play text-white"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="p-4">
-                                <h3 class="font-medium text-gray-800 mb-2">SQL Cơ bản - SELECT</h3>
-                                <div class="flex items-center text-sm text-gray-500">
-                                    <i class="fas fa-eye mr-1"></i>
-                                    <span class="mr-4">856 lượt xem</span>
-                                    <i class="fas fa-clock mr-1"></i>
-                                    <span>22 phút</span>
-                                </div>
-                            </div>
+                        <div class="form-group">
+                            <select>
+                                <option>Tất cả môn học</option>
+                                <option>Toán học</option>
+                                <option>Vật lý</option>
+                                <option>Hóa học</option>
+                                <option>Sinh học</option>
+                            </select>
                         </div>
-                        
-                        <!-- Video Card 3 -->
-                        <div class="video-card bg-white rounded-lg overflow-hidden shadow-md transition-transform">
-                            <div class="relative pb-[56.25%]">
-                                <img src="https://placehold.co/400x225" alt="Bài giảng về Spring Framework với slide trình bày kiến trúc MVC" class="absolute h-full w-full object-cover">
-                                <div class="absolute inset-0 flex items-center justify-center">
-                                    <div class="bg-black bg-opacity-40 rounded-full p-3">
-                                        <i class="fas fa-play text-white"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="p-4">
-                                <h3 class="font-medium text-gray-800 mb-2">Spring Framework - IoC & DI</h3>
-                                <div class="flex items-center text-sm text-gray-500">
-                                    <i class="fas fa-eye mr-1"></i>
-                                    <span class="mr-4">1.5k lượt xem</span>
-                                    <i class="fas fa-clock mr-1"></i>
-                                    <span>28 phút</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Video Card 4 -->
-                        <div class="video-card bg-white rounded-lg overflow-hidden shadow-md transition-transform">
-                            <div class="relative pb-[56.25%]">
-                                <img src="https://placehold.co/400x225" alt="Hướng dẫn HTML5 với code editor hiển thị các thẻ semantic" class="absolute h-full w-full object-cover">
-                                <div class="absolute inset-0 flex items-center justify-center">
-                                    <div class="bg-black bg-opacity-40 rounded-full p-3">
-                                        <i class="fas fa-play text-white"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="p-4">
-                                <h3 class="font-medium text-gray-800 mb-2">HTML5 Semantic Elements</h3>
-                                <div class="flex items-center text-sm text-gray-500">
-                                    <i class="fas fa-eye mr-1"></i>
-                                    <span class="mr-4">1.1k lượt xem</span>
-                                    <i class="fas fa-clock mr-1"></i>
-                                    <span>18 phút</span>
-                                </div>
-                            </div>
+                        <div class="form-group">
+                            <select>
+                                <option>Tất cả loại</option>
+                                <option>PDF</option>
+                                <option>Video</option>
+                                <option>PowerPoint</option>
+                                <option>Word</option>
+                            </select>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- PDF Documents Section -->
-                <div class="bg-white rounded-lg shadow-sm p-6 mb-8">
-                    <div class="flex justify-between items-center mb-4">
-                        <h2 class="text-xl font-semibold text-gray-800">Tài liệu PDF</h2>
-                        <a href="#" class="text-indigo-600 text-sm font-medium hover:text-indigo-800">Xem tất cả</a>
+            <div class="document-stats">
+                <div class="container">
+                    <div class="document-stats-grid">
+                        <div class="document-stat">
+                            <div class="document-stat-icon blue">
+                                <i class="fas fa-file"></i>
+                            </div>
+                            <div class="document-stat-number">10</div>
+                            <div class="document-stat-label">Tài liệu</div>
+                        </div>
+                        <div class="document-stat">
+                            <div class="document-stat-icon green">
+                                <i class="fas fa-download"></i>
+                            </div>
+                            <div class="document-stat-number">1,256</div>
+                            <div class="document-stat-label">Lượt tải</div>
+                        </div>
+                        <div class="document-stat">
+                            <div class="document-stat-icon orange">
+                                <i class="fab fa-youtube"></i>
+                            </div>
+                            <div class="document-stat-number">87</div>
+                            <div class="document-stat-label">Video</div>
+                        </div>
+                        <div class="document-stat">
+                            <div class="document-stat-icon purple">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <div class="document-stat-number">9</div>
+                            <div class="document-stat-label">Môn học</div>
+                        </div>
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        <!-- PDF Card 1 -->
-                        <div class="flex items-center p-3 border rounded-lg hover:border-indigo-400 transition-colors">
-                            <div class="bg-red-100 rounded-lg p-3 mr-4">
-                                <i class="fas fa-file-pdf text-red-600 text-xl"></i>
+                </div>
+            </div>
+
+            <div class="container">
+                <h3 style="margin-bottom: 2rem; color: #1e293b; font-size: 1.5rem;">Tài liệu</h3>
+                <div class="documents-grid">
+                    <div class="document-card">
+                        <div class="document-header">
+                            <div class="document-type-icon pdf">
+                                <i class="fas fa-file-pdf"></i>
                             </div>
                             <div>
-                                <h3 class="font-medium text-gray-800 mb-1">Ebook Java Core</h3>
-                                <p class="text-sm text-gray-500">Tác giả: Nguyễn Văn A</p>
-                                <div class="flex items-center text-xs text-gray-400 mt-1">
-                                    <i class="fas fa-file-alt mr-1"></i>
-                                    <span class="mr-3">210 trang</span>
-                                    <i class="fas fa-download mr-1"></i>
-                                    <span>1.2MB</span>
+                                <div class="document-title">Chuyên đề Dao hàm và Ứng dụng</div>
+                            </div>
+                        </div>
+                        <div class="document-description">
+                            Tài liệu chi tiết về dao hàm, các công thức và bài tập ứng dụng
+                        </div>
+                        <div class="document-meta">
+                            <div class="document-meta-item">
+                                <i class="fas fa-user"></i>
+                                <span>TS. Nguyễn Văn Nam</span>
+                            </div>
+                            <div class="document-meta-item">
+                                <i class="fas fa-calendar"></i>
+                                <span>2024-03-15</span>
+                            </div>
+                            <div class="document-meta-item">
+                                <i class="fas fa-download"></i>
+                                <span>234 lượt tải</span>
+                            </div>
+                            <div class="document-meta-item">
+                                <i class="fas fa-weight-hanging"></i>
+                                <span>2.5 MB</span>
+                            </div>
+                        </div>
+                        <button class="document-download">
+                            <i class="fas fa-download"></i>
+                            Tải xuống
+                        </button>
+                    </div>
+
+                    <div class="document-card">
+                        <div class="document-header">
+                            <div class="document-type-icon video">
+                                <i class="fab fa-youtube"></i>
+                            </div>
+                            <div>
+                                <div class="document-title">Bài giảng Định luật Newton</div>
+                            </div>
+                        </div>
+                        <div class="document-description">
+                            Slide bài giảng về 3 định luật Newton với ví dụ minh họa
+                        </div>
+                        <div class="document-meta">
+                            <div class="document-meta-item">
+                                <i class="fas fa-user"></i>
+                                <span>PGS. Lê Thị Hoa</span>
+                            </div>
+                            <div class="document-meta-item">
+                                <i class="fas fa-calendar"></i>
+                                <span>2024-03-14</span>
+                            </div>
+                            <div class="document-meta-item">
+                                <i class="fas fa-download"></i>
+                                <span>189 lượt tải</span>
+                            </div>
+                            <div class="document-meta-item">
+                                <i class="fas fa-weight-hanging"></i>
+                                <span>15.2 MB</span>
+                            </div>
+                        </div>
+                        <button class="document-download">
+                            <i class="fas fa-download"></i>
+                            Tải xuống
+                        </button>
+                    </div>
+
+                    <div class="document-card">
+                        <div class="document-header">
+                            <div class="document-type-icon word">
+                                <i class="fas fa-file-word"></i>
+                            </div>
+                            <div>
+                                <div class="document-title">Video thí nghiệm Phản ứng Axit-Bazo</div>
+                            </div>
+                        </div>
+                        <div class="document-description">
+                            Video thí nghiệm chi tiết các phản ứng axit-bazo phổ biến
+                        </div>
+                        <div class="document-meta">
+                            <div class="document-meta-item">
+                                <i class="fas fa-user"></i>
+                                <span>ThS. Trần Minh Tuấn</span>
+                            </div>
+                            <div class="document-meta-item">
+                                <i class="fas fa-calendar"></i>
+                                <span>2024-03-13</span>
+                            </div>
+                            <div class="document-meta-item">
+                                <i class="fas fa-download"></i>
+                                <span>156 lượt tải</span>
+                            </div>
+                            <div class="document-meta-item">
+                                <i class="fas fa-weight-hanging"></i>
+                                <span>125 MB</span>
+                            </div>
+                        </div>
+                        <button class="document-download">
+                            <i class="fas fa-download"></i>
+                            Tải xuống
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trang Liên Hệ -->
+        <div class="page" id="contact">
+            <div class="hero contact-hero">
+                <div class="container">
+                    <div class="hero-content">
+                        <h1>Liên Hệ</h1>
+                        <p>Chúng tôi luôn sẵn sàng hỗ trợ bạn</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="contact-section">
+                    <div class="contact-form">
+                        <h3>Gửi tin nhắn cho chúng tôi</h3>
+                        <form id="contactForm">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="name">Họ và tên *</label>
+                                    <input type="text" id="name" name="name" placeholder="Nhập họ và tên" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email *</label>
+                                    <input type="email" id="email" name="email" placeholder="Nhập email" required>
                                 </div>
                             </div>
-                            <button class="ml-auto text-indigo-600 hover:text-indigo-800">
-                                <i class="fas fa-download"></i>
-                            </button>
-                        </div>
-                        
-                        <!-- PDF Card 2 -->
-                        <div class="flex items-center p-3 border rounded-lg hover:border-indigo-400 transition-colors">
-                            <div class="bg-blue-100 rounded-lg p-3 mr-4">
-                                <i class="fas fa-file-pdf text-blue-600 text-xl"></i>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="phone">Số điện thoại</label>
+                                    <input type="tel" id="phone" name="phone" placeholder="Nhập số điện thoại">
+                                </div>
+                                <div class="form-group">
+                                    <label for="subject">Chủ đề *</label>
+                                    <select id="subject" name="subject" required>
+                                        <option value="">Chọn chủ đề</option>
+                                        <option value="support">Hỗ trợ kỹ thuật</option>
+                                        <option value="enrollment">Đăng ký học</option>
+                                        <option value="feedback">Góp ý</option>
+                                        <option value="other">Khác</option>
+                                    </select>
+                                </div>
                             </div>
-                           
+                            <div class="form-group full-width">
+                                <label for="message">Nội dung tin nhắn *</label>
+                                <textarea id="message" name="message" placeholder="Nhập nội dung tin nhắn (tối đa 500 ký tự)" maxlength="500" required></textarea>
+                                <div class="char-count">0/500 ký tự</div>
+                            </div>
+                            <button type="submit" class="submit-btn">
+                                <i class="fas fa-paper-plane"></i>
+                                Gửi tin nhắn
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="contact-info">
+                        <h3>Thông tin liên hệ</h3>
+                        <div class="contact-info-grid">
+                            <div class="contact-info-item">
+                                <div class="contact-info-icon">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <div class="contact-info-content">
+                                    <h4>Địa chỉ</h4>
+                                    <p>123 Đường ABC, Quận XYZ<br>Thành phố Hà Nội, Việt Nam</p>
+                                </div>
+                            </div>
+                            <div class="contact-info-item">
+                                <div class="contact-info-icon">
+                                    <i class="fas fa-phone"></i>
+                                </div>
+                                <div class="contact-info-content">
+                                    <h4>Điện thoại</h4>
+                                    <p>(024) 3555 0123<br>(024) 3555 0124</p>
+                                </div>
+                            </div>
+                            <div class="contact-info-item">
+                                <div class="contact-info-icon">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div class="contact-info-content">
+                                    <h4>Email</h4>
+                                    <p>info@truongthpt.edu.vn<br>support@truongthpt.edu.vn</p>
+                                </div>
+                            </div>
+                            <div class="contact-info-item">
+                                <div class="contact-info-icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="contact-info-content">
+                                    <h4>Giờ làm việc</h4>
+                                    <p>Thứ 2 - Thứ 6: 7:00 - 17:00<br>Thứ 7: 7:00 - 11:00</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="contact-departments">
+                            <h4>Các phòng ban</h4>
+                            <div class="department-item">
+                                <span>Ban Giám Hiệu</span>
+                                <div>
+                                    <i class="fas fa-phone" style="margin-right: 5px;"></i>
+                                    (024) 3555 0100
+                                    <br>
+                                    <i class="fas fa-envelope" style="margin-right: 5px;"></i>
+                                    bangiamhieu@truongthpt.edu.vn
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Navigation functionality
+        const navLinks = document.querySelectorAll('.nav-link');
+        const pages = document.querySelectorAll('.page');
+        const heroButtons = document.querySelectorAll('[data-page]');
+
+        function switchPage(targetPage) {
+            // Remove active class from all links and pages
+            navLinks.forEach(l => l.classList.remove('active'));
+            pages.forEach(p => p.classList.remove('active'));
+            
+            // Add active class to target page
+            document.getElementById(targetPage).classList.add('active');
+            
+            // Add active class to corresponding nav link
+            const targetNavLink = document.querySelector(`[data-page="${targetPage}"]`);
+            if (targetNavLink && targetNavLink.classList.contains('nav-link')) {
+                targetNavLink.classList.add('active');
+            }
+        }
+
+        // Page navigation for nav links
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetPage = link.getAttribute('data-page');
+                switchPage(targetPage);
+            });
+        });
+
+        // Page navigation for hero buttons
+        heroButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetPage = button.getAttribute('data-page');
+                if (targetPage) {
+                    switchPage(targetPage);
+                }
+            });
+        });
+
+        // Character counter for contact form
+        const messageTextarea = document.getElementById('message');
+        const charCount = document.querySelector('.char-count');
+
+        if (messageTextarea && charCount) {
+            messageTextarea.addEventListener('input', function() {
+                const currentLength = this.value.length;
+                charCount.textContent = `${currentLength}/500 ký tự`;
+            });
+        }
+
+        // Contact form submission
+        const contactForm = document.getElementById('contactForm');
+        if (contactForm) {
+            contactForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                alert('Cảm ơn bạn đã liên hệ! Chúng tôi sẽ phản hồi trong thời gian sớm nhất.');
+                contactForm.reset();
+                if (charCount) charCount.textContent = '0/500 ký tự';
+            });
+        }
+
+        // Smooth animations for cards
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all cards for animation
+        document.querySelectorAll('.feature-card, .teacher-card, .document-card, .contact-info-item').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'all 0.6s ease';
+            observer.observe(card);
+        });
+
+        // Search functionality
+        const searchInputs = document.querySelectorAll('input[type="text"]');
+        searchInputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.style.borderColor = '#4f46e5';
+                this.style.boxShadow = '0 0 0 3px rgba(79, 70, 229, 0.1)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.style.borderColor = '#d1d5db';
+                this.style.boxShadow = 'none';
+            });
+        });
+
+        // Form validation enhancements
+        const forms = document.querySelectorAll('form');
+        forms.forEach(form => {
+            const inputs = form.querySelectorAll('input[required], select[required], textarea[required]');
+            
+            inputs.forEach(input => {
+                input.addEventListener('blur', function() {
+                    if (this.value.trim() === '') {
+                        this.style.borderColor = '#ef4444';
+                    } else {
+                        this.style.borderColor = '#10b981';
+                    }
+                });
+            });
+        });
+
+        // Responsive menu toggle (for mobile - basic implementation)
+        function createMobileMenu() {
+            if (window.innerWidth <= 768) {
+                const nav = document.querySelector('nav');
+                const navLinks = document.querySelector('.nav-links');
+                
+                if (!document.querySelector('.mobile-menu-toggle')) {
+                    const mobileToggle = document.createElement('button');
+                    mobileToggle.classList.add('mobile-menu-toggle');
+                    mobileToggle.innerHTML = '<i class="fas fa-bars"></i>';
+                    mobileToggle.style.cssText = `
+                        display: block;
+                        background: none;
+                        border: none;
+                        font-size: 1.5rem;
+                        color: #4f46e5;
+                        cursor: pointer;
+                    `;
+                    
+                    nav.appendChild(mobileToggle);
+                    
+                    mobileToggle.addEventListener('click', () => {
+                        navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+                        navLinks.style.flexDirection = 'column';
+                        navLinks.style.position = 'absolute';
+                        navLinks.style.top = '100%';
+                        navLinks.style.left = '0';
+                        navLinks.style.right = '0';
+                        navLinks.style.background = 'white';
+                        navLinks.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+                        navLinks.style.padding = '1rem';
+                    });
+                }
+            }
+        }
+
+        // Initialize mobile menu on load and resize
+        createMobileMenu();
+        window.addEventListener('resize', createMobileMenu);
+
+        // Smooth scroll for better UX
+        document.documentElement.style.scrollBehavior = 'smooth';
+
+        // Loading animation simulation
+        window.addEventListener('load', () => {
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.3s ease';
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+
+        // Enhanced button hover effects
+        const buttons = document.querySelectorAll('.btn-primary, .btn-secondary, .document-download, .submit-btn');
+        buttons.forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-2px)';
+            });
+            
+            button.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Stats animation when in view
+        const statsNumbers = document.querySelectorAll('.stat-number, .document-stat-number');
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const target = entry.target;
+                    const finalValue = target.textContent;
+                    let currentValue = 0;
+                    const increment = finalValue.includes('+') ? 
+                        parseInt(finalValue.replace(/[^\d]/g, '')) / 50 : 
+                        parseInt(finalValue.replace(/[^\d]/g, '')) / 50;
+                    
+                    const timer = setInterval(() => {
+                        currentValue += increment;
+                        if (currentValue >= parseInt(finalValue.replace(/[^\d]/g, ''))) {
+                            target.textContent = finalValue;
+                            clearInterval(timer);
+                        } else {
+                            target.textContent = Math.floor(currentValue) + (finalValue.includes('+') ? '+' : '') + 
+                                (finalValue.includes('/') ? '/5' : '');
+                        }
+                    }, 30);
+                    
+                    statsObserver.unobserve(target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        statsNumbers.forEach(stat => {
+            statsObserver.observe(stat);
+        });
+    </script>
+</body>
+</html>="stat-number">50+</div>
+                            <div class="stat-label">Giảng viên</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">15+</div>
+                            <div class="stat-label">Năm kinh nghiệm TB</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class
